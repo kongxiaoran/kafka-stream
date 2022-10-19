@@ -1,0 +1,38 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: kafka-stream-demo
+  kafka:
+    bootstrap-servers: 10.17.207.123:9092,10.17.207.123:9093,10.17.207.123:9094
+    producer:
+      retries: 0
+      acks: all
+      batch-size: 16384
+      buffer-memory: 33554432
+
+    consumer:
+      group-id: cdcConsumer
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      auto-commit-interval: 1000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:sqlserver://10.17.207.141:1433;DatabaseName=wcdctest
+    username: sa
+    password: finchina
+  data:
+    mongodb:
+      username: finchina
+      password: finchina
+      database: information
+      host: 10.10.18.99
+      port: 27006
+
+#整合mybatis
+mybatis:
+  type-aliases-package: finchina.demo.dto  #给pojo实体类起别名
+  mapper-locations: classpath:mybatis/mapper/*.xml  #接口的配置文件的位置 我这里接口配置文件是UserMapper.xml 如下图所示

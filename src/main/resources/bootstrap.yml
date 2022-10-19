@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: kafka-stream-demo
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_HOST:10.15.97.66:8848}
+        namespace: ${NACOS_NAMESPACE:test}
+        #配置分组
+        group: DEFAULT_GROUP
+        prefix: flink-data-import
+        file-extension: yml
+        shared-configs:
+          - dataId: flink-data-import.properties
+            refresh: true
+        username: ${NACOS_USERNAME:nacos}
+        password: ${NACOS_PASSWORD:nacos}
+      discovery:
+        server-addr: ${NACOS_HOST:10.15.97.66:8848}
+        namespace: ${NACOS_NAMESPACE:test}
+        cluster-name: DEFAULT
+        #nacos用户名
+        username: ${NACOS_USERNAME:nacos}
+        #nacos密码
+        password: ${NACOS_PASSWORD:nacos}
+
