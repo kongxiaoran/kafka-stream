@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="finchina.demo.mapper.gg.NoticeMapper">
+
+    <!-- 股票公告来源获取 -->
+    <select id="select1311" resultType="finchina.demo.dto.CommonBean">
+        SELECT
+        t1.AnnounmtID as keyV,
+        CASE
+        WHEN ISNULL(t1.NW1311_006, '') = '' THEN '交易所'
+        WHEN t1.NW1311_006 = '代办股份转让信息平台' THEN '全国股转系统'
+        ELSE t1.NW1311_006 END AS value
+        FROM CentralDB_News..tNW1311 t1 WITH(NOLOCK)
+        where t1.Flag !=1 AND t1.AnnounmtID in
+        <foreach collection="idList" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <select id="select1314" resultType="finchina.demo.dto.CommonBean">
+        SELECT
+        t1.HKAnnounmtID as keyV,
+        CASE
+        WHEN ISNULL(t1.NW1314_006, '') = '' THEN '交易所'
+        ELSE t1.NW1314_006 END AS value
+        FROM CentralDB_News..tNW1314 t1 WITH(NOLOCK)
+        where t1.HKAnnounmtID in
+        <foreach collection="idList" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="select1312" resultType="finchina.demo.dto.CommonBean">
+        SELECT
+        t1.BondID as keyV,
+        ISNULL(t1.NW1312_005, '交易所') AS value,
+        t1.NW1312_002 AS value2
+        FROM CentralDB_News..tNW1312 t1 WITH(NOLOCK)
+        where t1.BondID in
+        <foreach collection="idList" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+
+    <!-- 债券链接获取 -->
+    <select id="select1306Bond" resultType="finchina.demo.dto.CommonBean">
+        SELECT
+        t1.NW1306_002 as keyV,
+        t1.NW1306_005 AS value
+        FROM CentralDB_News..tNW1306_BOND t1 WITH(NOLOCK)
+        where t1.Flag !=1 AND t1.NW1306_002 in
+        <foreach collection="idList" item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

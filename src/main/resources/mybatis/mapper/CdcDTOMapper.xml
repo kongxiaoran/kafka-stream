@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="finchina.demo.mapper.CdcDTOMapper">
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper-->
+<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="finchina.demo.mapper.CdcDTOMapper">-->
 
-    <insert id="add" parameterType="CdcDTO">
-        INSERT INTO wcdctest.dbo.cdc_data (topic,value,op,data,time) VALUES (#{topic},#{value},#{op},#{data},#{time});
-    </insert>
+<!--    <insert id="add" parameterType="CdcDTO">-->
+<!--        INSERT INTO wcdctest.dbo.cdc_data (topic,value,op,data,time) VALUES (#{topic},#{value},#{op},#{data},#{time});-->
+<!--    </insert>-->
 
-    <select id="getList" parameterType="long" resultType="Person">
-        select * from wcdctest.dbo.kafkaStream where id in
-        <foreach collection="idList" item="id" index="index" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </select>
+<!--    <select id="getList" parameterType="long" resultType="Person">-->
+<!--        select * from wcdctest.dbo.kafkaStream where id in-->
+<!--        <foreach collection="idList" item="id" index="index" open="(" separator="," close=")">-->
+<!--            #{id}-->
+<!--        </foreach>-->
+<!--    </select>-->
 
 
-</mapper>
+<!--</mapper>-->
