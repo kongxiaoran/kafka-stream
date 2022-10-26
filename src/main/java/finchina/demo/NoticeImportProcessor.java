@@ -1,5 +1,6 @@
 package finchina.demo;
 
+import com.alibaba.fastjson.JSON;
 import finchina.demo.function.NoticeFunction;
 import finchina.demo.function.SerializeFunction;
 import finchina.demo.function.WriteFunction;
@@ -10,9 +11,11 @@ import finchina.demo.writer.MongoDBWriter;
 import finchina.demo.writer.dto.WriterInfo;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
+import org.bson.types.BSONTimestamp;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,14 +55,22 @@ public class NoticeImportProcessor {
 
 
         KStream kafkaStream = streamsBuilder
-            .stream("10.10.17.112.dbo.tNW1302_NEW", Consumed.with(STRING_SERDE, STRING_SERDE))
-            .map(new SerializeFunction()).filter((key, value) -> {
-                if (key == null)
-                    return false;
-                else
-                    return true;
-            });
-        kafkaStream.map(new NoticeFunction(noticeService)).map(new WriteFunction(elasticSearchWriter,mongoDBWriter));
+                .stream("10.10.17.112.dbo.tNW1302_NEW", Consumed.with(STRING_SERDE, STRING_SERDE))
+                .map(new SerializeFunction()).filter((key, value) -> {
+                    if (key == null)
+                        return false;
+                    else
+                        return true;
+                });
+        kafkaStream.map(new NoticeFunction(noticeService)).map((key, value) -> {
+            if(value == null)
+                return new KeyValue(null, null);
+            System.out.println(JSON.toJSONString(value));
+            return new KeyValue(null, null);
+        });
+
+
+//        new WriteFunction(elasticSearchWriter,mongoDBWriter)
 
 //        KStream<Object, Object> resStream = messageStream.flatMap((KeyValueMapper<Object, Object, List<KeyValue<String,String>>>) (o, o2) -> {
 //            Map<Long, String> dataMap = (Map<Long, String>) o2;
