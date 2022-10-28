@@ -33,7 +33,7 @@ public class ElasticSearchWriter {
     @Resource
     private RestHighLevelClient restHighLevelClient;
 
-    String indexName = PropertyUtil.getProperty("elasticsearch.sink.index");;
+    String indexName = "kafkastream_tnw1302_new";
 
     public long invoke(List<MainNewsBean> mainList, WriterInfo writerInfo) {
         if (CollectionUtils.isEmpty(mainList)) {

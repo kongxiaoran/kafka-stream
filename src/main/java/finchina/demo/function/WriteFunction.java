@@ -41,10 +41,6 @@ public class WriteFunction implements KeyValueMapper<String, NewsSinkBean, KeyVa
 
     @Override
     public KeyValue apply(String s, NewsSinkBean sinkBean) {
-        System.out.println(JSON.toJSONString(sinkBean));
-        if(s == null){
-            return new KeyValue(null,null);
-        }
         try {
             long s1 = System.currentTimeMillis();
             List<MainNewsBean> mainList = sinkBean.getMainList();

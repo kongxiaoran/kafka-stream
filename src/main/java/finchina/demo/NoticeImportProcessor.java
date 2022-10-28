@@ -55,19 +55,19 @@ public class NoticeImportProcessor {
 
 
         KStream kafkaStream = streamsBuilder
-                .stream("10.10.17.112.dbo.tNW1302_NEW", Consumed.with(STRING_SERDE, STRING_SERDE))
+                .stream("10.10.17.112x.dbo.tNW1302_NEW", Consumed.with(STRING_SERDE, STRING_SERDE))
                 .map(new SerializeFunction()).filter((key, value) -> {
                     if (key == null)
                         return false;
                     else
                         return true;
                 });
-        kafkaStream.map(new NoticeFunction(noticeService)).map((key, value) -> {
-            if(value == null)
-                return new KeyValue(null, null);
-            System.out.println(JSON.toJSONString(value));
-            return new KeyValue(null, null);
-        });
+        kafkaStream.map(new NoticeFunction(noticeService)).filter((key, value) -> {
+            if (key == null)
+                return false;
+            else
+                return true;
+        }).map(new WriteFunction(elasticSearchWriter,mongoDBWriter));
 
 
 //        new WriteFunction(elasticSearchWriter,mongoDBWriter)

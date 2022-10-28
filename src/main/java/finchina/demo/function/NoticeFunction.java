@@ -1,14 +1,11 @@
 package finchina.demo.function;
 
-import com.alibaba.fastjson.JSONObject;
 import finchina.demo.dto.*;
 import finchina.demo.service.CommonService;
 import finchina.demo.service.gg.NoticeService;
-import finchina.demo.util.Constance;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.KeyValueMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -80,8 +77,8 @@ public class NoticeFunction implements KeyValueMapper<String, MainNewsBean, KeyV
         }
 
         long end = System.currentTimeMillis();
-        if (batchMain.size() == 500) {
-            resOut();
+        if (batchMain.size() == 1000) {
+            return resOut();
         }
 
         return new KeyValue(null, null);
@@ -95,6 +92,8 @@ public class NoticeFunction implements KeyValueMapper<String, MainNewsBean, KeyV
         trCodeMap.clear();
         itCodeMap.clear();
         batchIds.clear();
+        bondIdList.clear();
+
         return new KeyValue("res",res);
     }
 

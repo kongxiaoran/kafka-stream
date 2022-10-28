@@ -63,7 +63,7 @@ public class MongoDBWriter {
         log.info("{} 数据写入MG逻辑处理耗时：{} ms， 当前批次数据量：{}，操作请求数：{}", taskName, System.currentTimeMillis() - s, mongoValues.size(), request.getUpsertList().size());
         long start = System.currentTimeMillis();
         if (request.isNotEmpty()) {
-            BulkOperations bulkOperations = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, collectName);
+            BulkOperations bulkOperations = mongoTemplate.bulkOps(BulkOperations.BulkMode.ORDERED, "KafkaStream_tNW1302_NEW");
             if (!CollectionUtils.isEmpty(request.getUpsertList())) {
                 bulkOperations.upsert(request.getUpsertList());
             }
