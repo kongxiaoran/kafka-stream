@@ -14,7 +14,8 @@ import org.springframework.kafka.config.KafkaStreamsConfiguration;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.apache.kafka.clients.consumer.ConsumerConfig.AUTO_OFFSET_RESET_CONFIG;
+import static org.apache.kafka.clients.consumer.ConsumerConfig.*;
+import static org.apache.kafka.clients.consumer.ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG;
 import static org.apache.kafka.streams.StreamsConfig.*;
 import static org.apache.kafka.streams.StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG;
 
@@ -34,12 +35,15 @@ public class KafkaStreamConfig {
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     KafkaStreamsConfiguration kStreamsConfig() {
         Map<String, Object> props = new HashMap<>();
-        props.put(APPLICATION_ID_CONFIG, "streams-app2");
+        props.put(APPLICATION_ID_CONFIG, "streams-app");
         props.put(BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         props.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG,1);
         props.put(AUTO_OFFSET_RESET_CONFIG, "earliest");
+//        props.put(MAX_POLL_INTERVAL_MS_CONFIG,10000000-10000);
+//        props.put(SESSION_TIMEOUT_MS_CONFIG,10000000);
+//        props.put(HEARTBEAT_INTERVAL_MS_CONFIG,10000000-10000);
         return new KafkaStreamsConfiguration(props);
     }
 }

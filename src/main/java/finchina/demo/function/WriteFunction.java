@@ -11,6 +11,8 @@ import finchina.demo.writer.dto.WriterInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.KeyValue;
 import org.apache.kafka.streams.kstream.KeyValueMapper;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,10 +48,12 @@ public class WriteFunction implements KeyValueMapper<String, NewsSinkBean, KeyVa
             List<MainNewsBean> mainList = sinkBean.getMainList();
             CompletableFuture<Long> mgFuture = CompletableFuture.supplyAsync(()-> mongoDBWriter.invoke(mainList, writerInfo), GlobalThreadPool.getExecutor());
             CompletableFuture<Long> esFuture = CompletableFuture.supplyAsync(()-> elasticSearchWriter.invoke(mainList, writerInfo), GlobalThreadPool.getExecutor());
-            CompletableFuture.allOf(mgFuture, esFuture).get();
-            long sinkDuration = System.currentTimeMillis() - s1;
-            log.info("{} 数据处理总耗时：{} ms， 数据查询耗时：{} ms， 主表数据量：{}，ES-写入耗时：{} ms； MG-写入耗时：{} ms； 总流程耗时：{} ms", writerInfo.getTaskName(), sinkBean.getTotalDuration(),
-                    sinkBean.getQueryDuration(), mainList.size(), esFuture.get(), mgFuture.get(), sinkDuration);
+            log.warn("{} 数据处理总耗时：{} ms， 数据查询耗时：{} ms， 主表数据量：{}", writerInfo.getTaskName(), sinkBean.getTotalDuration(),
+                    sinkBean.getQueryDuration(), mainList.size());
+//            CompletableFuture.allOf(mgFuture, esFuture).get();
+//            log.warn("{} 数据处理总耗时：{} ms， 数据查询耗时：{} ms， 主表数据量：{}，ES-写入耗时：{} ms； MG-写入耗时：{} ms； 总流程耗时：{} ms", writerInfo.getTaskName(), sinkBean.getTotalDuration(),
+//                    sinkBean.getQueryDuration(), mainList.size(), esFuture.get(), mgFuture.get(), sinkDuration);
+
         } catch (Exception e){
 
         }

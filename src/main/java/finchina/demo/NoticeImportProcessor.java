@@ -55,7 +55,7 @@ public class NoticeImportProcessor {
 
 
         KStream kafkaStream = streamsBuilder
-                .stream("10.10.17.112x.dbo.tNW1302_NEW", Consumed.with(STRING_SERDE, STRING_SERDE))
+                .stream("10.10.17.112.dbo.tNW1302_NEW", Consumed.with(STRING_SERDE, STRING_SERDE))
                 .map(new SerializeFunction()).filter((key, value) -> {
                     if (key == null)
                         return false;

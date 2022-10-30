@@ -1,5 +1,5 @@
 server:
-  port: 8087
+  port: 9010
 
 spring:
   application:
@@ -32,7 +32,13 @@ spring:
       host: 10.10.18.99
       port: 27006
 
-#整合mybatis
 mybatis:
-  type-aliases-package: finchina.demo.dto  #给pojo实体类起别名
-  mapper-locations: classpath:mybatis/mapper/*.xml  #接口的配置文件的位置 我这里接口配置文件是UserMapper.xml 如下图所示
+  type-aliases-package: finchina.demo.dto
+  mapper-locations: classpath:mybatis/mapper/*.xml
+
+
+logging:
+  level:
+    root: warn
+  file:
+    name: /app/kafka/kafka_stream/9010log.log

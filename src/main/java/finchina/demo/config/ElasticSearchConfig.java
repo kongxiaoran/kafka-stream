@@ -70,7 +70,7 @@ public class ElasticSearchConfig {
 
         RestClientBuilder builder = RestClient.builder(httpHosts);
         //设置connectTimeout、socketTimeout
-        builder.setRequestConfigCallback(requestConfigBuilder -> requestConfigBuilder.setConnectTimeout(100000).setSocketTimeout(100000));
+        builder.setRequestConfigCallback(requestConfigBuilder -> requestConfigBuilder.setConnectTimeout(100000).setSocketTimeout(100000).setMaxRedirects(10));
         //使用异步httpclient时设置并发连接数
        //index.mapping.nested_objects.limit
         builder.setHttpClientConfigCallback(httpAsyncClientBuilder -> httpAsyncClientBuilder.setDefaultCredentialsProvider(credentialsProvider).setMaxConnTotal(connectNum).setMaxConnPerRoute(connectPerRoute));
